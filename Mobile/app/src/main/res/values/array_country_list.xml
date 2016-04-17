@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country_array">
+        <item>Choose...</item>
+        <item>USA</item>
+        <item>Syria</item>
+        <item>Afghanistan</item>
+        <item>Iraq</item>
+        <item>Kosovo</item>
+        <item>Albania</item>
+        <item>Pakistan</item>
+        <item>Eritrea</item>
+        <item>Nigeria</item>
+        <item>Iran</item>
+        <item>Ukraine</item>
+        <item>Other</item>
+    </string-array>
+</resources>

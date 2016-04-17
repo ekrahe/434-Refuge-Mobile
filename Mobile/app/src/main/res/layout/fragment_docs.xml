@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/wrapperPhotoID">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Photo ID"
+            android:id="@+id/labelPhotoID"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxPhotoID"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonDeletePhotoID"
+            android:clickable="false"
+            android:src="@drawable/ic_delete_black"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/checkBoxPhotoID"
+            android:layout_toStartOf="@+id/checkBoxPhotoID" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonTakePhotoID"
+            android:src="@drawable/ic_take_photo"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/buttonDeletePhotoID"
+            android:layout_toStartOf="@+id/buttonDeletePhotoID" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wrapperPhotoID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/wrapperRegistration">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Registration"
+            android:id="@+id/labelRegistration"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxRegistration"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonDeleteRegistration"
+            android:clickable="false"
+            android:src="@drawable/ic_delete_black"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/checkBoxRegistration"
+            android:layout_toStartOf="@+id/checkBoxRegistration" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonTakeRegistration"
+            android:src="@drawable/ic_take_photo"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/buttonDeleteRegistration"
+            android:layout_toStartOf="@+id/buttonDeleteRegistration" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wrapperRegistration"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/wrapperPassport" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Passport"
+            android:id="@+id/labelPassport"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBoxPassport"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonDeletePassport"
+            android:clickable="false"
+            android:src="@drawable/ic_delete_black"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/checkBoxPassport"
+            android:layout_toStartOf="@+id/checkBoxPassport" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonTakePassport"
+            android:src="@drawable/ic_take_photo"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/buttonDeletePassport"
+            android:layout_toStartOf="@+id/buttonDeletePassport" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

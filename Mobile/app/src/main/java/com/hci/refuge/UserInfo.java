@@ -1,0 +1,100 @@
+package com.hci.refuge;
+
+import android.graphics.Bitmap;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by Eddie on 4/14/2016.
+ */
+public class UserInfo {
+
+    String profilePicPath = null, name = "", username = "", password = "";
+    Double travelDistance = new Double(0);
+    Country origin = Country.Blank;
+    HashMap<String, String> docs;
+    int birthday = 0, birthmonth = 0, birthyear = 0;
+    Bitmap propic = null;
+
+    public UserInfo() {
+        docs = new HashMap<>();
+    }
+
+    public UserInfo(ArrayList<String> vals) {
+        password = vals.get(0);
+        name = vals.get(1);
+        profilePicPath = vals.get(2);
+
+        String birthdayPattern = "-";
+        Pattern p = Pattern.compile(birthdayPattern);
+        String[] dates = p.split(vals.get(3));
+        birthmonth = Integer.parseInt(dates[0]);
+        birthday = Integer.parseInt(dates[1]);
+        birthyear = Integer.parseInt(dates[2]);
+
+        travelDistance = Double.parseDouble(vals.get(4));
+
+        String country = vals.get(5);
+        if (country.equals("Afghanistan")) origin = Country.Afghanistan;
+        else if (country.equals("Albania")) origin = Country.Albania;
+        else if (country.equals("Eritrea")) origin = Country.Eritrea;
+        else if (country.equals("Iran")) origin = Country.Iran;
+        else if (country.equals("Iraq")) origin = Country.Iraq;
+        else if (country.equals("Kosovo")) origin = Country.Kosovo;
+        else if (country.equals("Nigeria")) origin = Country.Nigeria;
+        else if (country.equals("Other")) origin = Country.Other;
+        else if (country.equals("Pakistan")) origin = Country.Pakistan;
+        else if (country.equals("Syria")) origin = Country.Syria;
+        else if (country.equals("Ukraine")) origin = Country.Ukraine;
+        else origin = Country.USA;
+
+        //TODO: extra docs
+    }
+
+    public String readyToCreate() {
+        String ret = "Missing ";
+        ArrayList<String> needs = new ArrayList<>();
+        if (profilePicPath == null) needs.add("profile picture");
+        if (name.length() == 0) needs.add("name");
+        if (username.length() == 0) needs.add("username");
+        if (password.length() == 0) needs.add("password");
+        if (travelDistance == 0) needs.add("travel distance");
+        if (origin == Country.Blank) needs.add("country of origin");
+        if (birthday == 0) needs.add("birth date");
+
+        if (needs.isEmpty()) {
+            return null;
+        }
+        else {
+            ret += needs.get(0);
+            if (needs.size() > 2) ret += ",";
+            for (int i = 1; i < needs.size() - 1; i++) {
+                ret += " " + needs.get(i) + ",";
+            }
+            if (needs.size() > 1) ret += " and " + needs.get(needs.size() - 1);
+            ret += ".";
+        }
+
+        return ret.trim();
+    }
+
+    public String fileStyle() {
+        String s = "" + password
+                + "\n" + name
+                + "\n" + profilePicPath
+                + "\n" + birthmonth + "-" + birthday + "-" + birthyear
+                + "\n" + travelDistance.toString()
+                + "\n" + origin.toString();
+
+        if (docs.containsKey("ID")) s += "\nid: " + docs.get("ID");
+        if (docs.containsKey("Registration")) s += "\nregistration: " + docs.get("Registration");
+        if (docs.containsKey("Passport")) s += "\npassort: " + docs.get("Passport");
+
+        return s;
+    }
+
+}
