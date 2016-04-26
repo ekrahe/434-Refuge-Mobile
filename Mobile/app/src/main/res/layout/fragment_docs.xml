@@ -7,53 +7,69 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Submitting the following documents is not required, but can make receiving aid easier:"
+        android:textAlignment="center"
+
+        android:id="@+id/labelDocsInstructions"
+        android:layout_centerHorizontal="true" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/labelDocsInstructions"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/wrapperPhotoID">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Photo ID"
-            android:id="@+id/labelPhotoID"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBoxPhotoID"
             android:clickable="false"
-            android:layout_centerVertical="true"
             android:checked="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkBoxPhotoID"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Photo ID"
+            android:id="@+id/labelPhotoID" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/labelPhotoID"
+            android:layout_alignLeft="@+id/labelPhotoID"
+            android:id="@+id/buttonTakePhotoID"
+            android:src="@drawable/ic_take_photo" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/buttonUploadPhotoID"
+            android:src="@drawable/ic_upload_photo"
+            android:layout_below="@+id/labelPhotoID"
+            android:layout_toRightOf="@+id/buttonTakePhotoID" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:id="@+id/buttonDeletePhotoID"
             android:clickable="false"
-            android:src="@drawable/ic_delete_black"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/checkBoxPhotoID"
-            android:layout_toStartOf="@+id/checkBoxPhotoID" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonTakePhotoID"
-            android:src="@drawable/ic_take_photo"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/buttonDeletePhotoID"
-            android:layout_toStartOf="@+id/buttonDeletePhotoID" />
+            android:src="@drawable/ic_delete"
+            android:layout_below="@+id/labelPhotoID"
+            android:layout_toRightOf="@+id/buttonUploadPhotoID" />
 
     </RelativeLayout>
 
@@ -63,47 +79,53 @@
         android:layout_below="@+id/wrapperPhotoID"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/wrapperRegistration">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Registration"
-            android:id="@+id/labelRegistration"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBoxRegistration"
             android:clickable="false"
-            android:layout_centerVertical="true"
             android:checked="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkBoxRegistration"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Registration"
+            android:id="@+id/labelRegistration" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/labelRegistration"
+            android:layout_alignLeft="@+id/labelRegistration"
+            android:id="@+id/buttonTakeRegistration"
+            android:src="@drawable/ic_take_photo" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/buttonUploadRegistration"
+            android:src="@drawable/ic_upload_photo"
+            android:layout_below="@+id/labelRegistration"
+            android:layout_toRightOf="@+id/buttonTakeRegistration" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:id="@+id/buttonDeleteRegistration"
             android:clickable="false"
-            android:src="@drawable/ic_delete_black"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/checkBoxRegistration"
-            android:layout_toStartOf="@+id/checkBoxRegistration" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonTakeRegistration"
-            android:src="@drawable/ic_take_photo"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/buttonDeleteRegistration"
-            android:layout_toStartOf="@+id/buttonDeleteRegistration" />
+            android:src="@drawable/ic_delete"
+            android:layout_below="@+id/labelRegistration"
+            android:layout_toRightOf="@+id/buttonUploadRegistration" />
 
     </RelativeLayout>
 
@@ -111,49 +133,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wrapperRegistration"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/wrapperPassport" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Passport"
-            android:id="@+id/labelPassport"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBoxPassport"
             android:clickable="false"
-            android:layout_centerVertical="true"
             android:checked="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/checkBoxPassport"
+            android:layout_alignParentTop="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Passport"
+            android:id="@+id/labelPassport" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/labelPassport"
+            android:layout_alignLeft="@+id/labelPassport"
+            android:id="@+id/buttonTakePassport"
+            android:src="@drawable/ic_take_photo" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/buttonUploadPassport"
+            android:src="@drawable/ic_upload_photo"
+            android:layout_below="@+id/labelPassport"
+            android:layout_toRightOf="@+id/buttonTakePassport" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:id="@+id/buttonDeletePassport"
             android:clickable="false"
-            android:src="@drawable/ic_delete_black"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/checkBoxPassport"
-            android:layout_toStartOf="@+id/checkBoxPassport" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonTakePassport"
-            android:src="@drawable/ic_take_photo"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/buttonDeletePassport"
-            android:layout_toStartOf="@+id/buttonDeletePassport" />
+            android:src="@drawable/ic_delete"
+            android:layout_below="@+id/labelPassport"
+            android:layout_toRightOf="@+id/buttonUploadPassport" />
 
     </RelativeLayout>
 

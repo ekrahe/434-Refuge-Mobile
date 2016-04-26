@@ -8,4 +8,5 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="enter_valid_username">Please enter a valid username</string>
+    <string name="explain_travel">The "Maximum Travel Distance" field defines how far you are willing to travel to an aid event, so that you are only ever presented with aid you are interested in.</string>
 </resources>

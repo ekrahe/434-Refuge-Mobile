@@ -46,33 +46,33 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonSignIn"
+        style="?android:textAppearanceSmall"
         android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_below="@+id/wrapperPassword"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:text="Sign in"
+        android:textStyle="bold" />
 
-        <Button
-            style="?android:textAppearanceSmall"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:text="Sign up"
-            android:id="@+id/buttonSignUp"
-            android:layout_gravity="right"
-            android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonSignIn"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Don't have an account?"
+        android:textStyle="bold"
+        android:id="@+id/labelSignUp"
+        android:layout_centerHorizontal="true" />
 
-        <Button
-            android:id="@+id/buttonSignIn"
-            style="?android:textAppearanceSmall"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:text="Sign in"
-            android:layout_gravity="left"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <Button
+        style="?android:textAppearanceSmall"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/labelSignUp"
+        android:text="Sign up"
+        android:id="@+id/buttonSignUp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

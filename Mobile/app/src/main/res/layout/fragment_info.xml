@@ -7,10 +7,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter the following required information:"
+        android:textAlignment="center"
+        android:id="@+id/labelInfoInstructions"
+        android:layout_centerHorizontal="true" />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/wrapperName">
+        android:id="@+id/wrapperName"
+        android:layout_below="@+id/labelInfoInstructions"
+        >
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,20 +75,41 @@
         android:hint="Birth Date" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <RelativeLayout
+        android:id="@+id/wrapperTravelContext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/wrapperTravel"
-        android:layout_below="@+id/wrapperDate">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:maxLength="6"
-        android:ems="10"
-        android:id="@+id/fieldTravel"
-        android:hint="Maximum Travel Distance (km)" />
-    </android.support.design.widget.TextInputLayout>
+        android:layout_below="@+id/wrapperDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonExplainTravel"
+            android:clickable="false"
+            android:src="@drawable/ic_help"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/buttonExplainTravel"
+            android:id="@+id/wrapperTravel">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="6"
+                android:ems="10"
+                android:id="@+id/fieldTravel"
+                android:hint="Maximum Travel Distance (km)" />
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,7 +117,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Country of Origin:"
         android:id="@+id/labelInfoCountry"
-        android:layout_below="@+id/wrapperTravel"
+        android:layout_below="@+id/wrapperTravelContext"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingTop="@dimen/fragment_info_spinner_vertical_margin"/>
@@ -95,8 +127,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="11dp"
         android:id="@+id/fieldCountry"
-        android:layout_below="@+id/wrapperTravel"
-        android:hint="Country of Origin"
+        android:layout_below="@+id/wrapperTravelContext"
         android:layout_toRightOf="@+id/labelInfoCountry"
         android:layout_toEndOf="@+id/labelInfoCountry" />
 

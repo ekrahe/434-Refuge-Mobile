@@ -1,11 +1,13 @@
 package com.hci.refuge;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,6 +35,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -109,9 +112,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public static class ProfilePicFragment extends Fragment implements View.OnClickListener {
 
-        ImageButton takePhoto;
+        ImageButton takePhoto, loadPhoto;
         ImageView proPic;
         View rootView;
+        TextView picHint, picReason, tabHint;
         int picW, picH;
 
         public ProfilePicFragment() {
@@ -129,40 +133,69 @@ public class CreateAccountActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_picture, container, false);
 
-            takePhoto = (ImageButton) rootView.findViewById(R.id.buttonPicTake);
+            takePhoto = (ImageButton) rootView.findViewById(R.id.buttonTakePropic);
             takePhoto.setOnClickListener(this);
 
+            loadPhoto = (ImageButton) rootView.findViewById(R.id.buttonUploadPropic);
+            loadPhoto.setOnClickListener(this);
+
+            picHint = (TextView) rootView.findViewById(R.id.labelPicHint);
+            picReason = (TextView) rootView.findViewById(R.id.labelPicReason);
+            tabHint = (TextView) rootView.findViewById(R.id.labelTabHint);
+
             proPic = (ImageView) rootView.findViewById(R.id.imageProPic);
-            if(userInfo.propic != null) proPic.setImageBitmap(userInfo.propic);
+            if(userInfo.propic != null) {
+                picHint.setText("");
+                picReason.setText("");
+                tabHint.setText("");
+                proPic.setImageBitmap(userInfo.propic);
+            }
 
             return rootView;
         }
 
-        static final int REQUEST_TAKE_PHOTO = 1;
+        static final int REQUEST_TAKE_PHOTO = 1, REQUEST_LOAD_PHOTO = 2;
 
         @Override
         public void onClick(View v) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             picW = rootView.getWidth();
             picH = rootView.getHeight() - takePhoto.getHeight();
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(pm) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
+
+            if (v.getId() == R.id.buttonTakePropic) {
+                //take a new photo
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // Ensure that there's a camera activity to handle the intent
+                if (takePictureIntent.resolveActivity(pm) != null) {
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException ex) {
+                        // Error occurred while creating the File
+                    }
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
                 }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            } else {
+                //load an existing photo
+                String state = Environment.getExternalStorageState();
+                if (Environment.MEDIA_MOUNTED.equals(state) ||
+                        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+                    Intent i = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(i, REQUEST_LOAD_PHOTO);
+                } else {
+                    Toast.makeText(getContext(), "Cannot Load Images", Toast.LENGTH_LONG).show();
                 }
+
             }
         }
 
-        String _currentPhotoPath;
+        String _currentPhotoPath = null;
 
         private File createImageFile() throws IOException {
             // Create an image file name
@@ -175,37 +208,78 @@ public class CreateAccountActivity extends AppCompatActivity {
             return image;
         }
 
+        private String copyLoadedImage(Bitmap pic) {
+            // Save a loaded image in app-specific memory, so it can be loaded whenever
+            try {
+                File image = createImageFile();
+
+                FileOutputStream fos = new FileOutputStream(image);
+                // Copy the loaded Bitmap into a .jpeg
+                pic.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+
+                // Make sure the system knows that the new file exists
+                MediaScannerConnection.scanFile(getContext(), new String[]{image.toString()}, null, null);
+                return image.getAbsolutePath();
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Unable to read uploaded profile picture"
+                        ,Toast.LENGTH_LONG).show();
+                return null;
+            }
+        }
+
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
                 // If the picture was successfully taken, show it
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                bmOptions.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(_currentPhotoPath, bmOptions);
-                int photoW = bmOptions.outWidth;
-                int photoH = bmOptions.outHeight;
-
-                bmOptions.inJustDecodeBounds = false;
-                Bitmap pic = BitmapFactory.decodeFile(_currentPhotoPath, bmOptions);
-                Bitmap scaled;
-                if(photoW > photoH) {
-                    scaled = Bitmap.createScaledBitmap(pic, picW, (int) (photoH * (((double) picW) / photoW)), false);
-                } else {
-                    scaled = Bitmap.createScaledBitmap(pic, (int) (photoW * (((double) picH) / photoH)), picH, false);
+                setPic();
+            } else if (requestCode == REQUEST_LOAD_PHOTO && resultCode == RESULT_OK) {
+                try {
+                    Uri imageUri = data.getData();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                    _currentPhotoPath = copyLoadedImage(bitmap.copy(Bitmap.Config.ARGB_8888, false));
+                    if (_currentPhotoPath != null) setPic();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Unable to read loaded image", Toast.LENGTH_LONG).show();
+                    if (_currentPhotoPath != null) {
+                        new File(_currentPhotoPath).delete();
+                        _currentPhotoPath = null;
+                    }
                 }
-
-                String prev = null;
-
-                if (userInfo.profilePicPath != null) {
-                    prev = userInfo.profilePicPath;
-                }
-
-                userInfo.profilePicPath = _currentPhotoPath;
-                proPic.setImageBitmap(scaled);
-                userInfo.propic = scaled.copy(Bitmap.Config.ARGB_8888, false);
-
-                if(prev != null) new File(prev).delete();
             }
+        }
+
+        public void setPic() {
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(_currentPhotoPath, bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            bmOptions.inJustDecodeBounds = false;
+            Bitmap pic = BitmapFactory.decodeFile(_currentPhotoPath, bmOptions);
+            Bitmap scaled;
+            if(photoW > photoH) {
+                scaled = Bitmap.createScaledBitmap(pic, picW, (int) (photoH * (((double) picW) / photoW)), false);
+            } else {
+                scaled = Bitmap.createScaledBitmap(pic, (int) (photoW * (((double) picH) / photoH)), picH, false);
+            }
+
+            String prev = null;
+
+            if (userInfo.profilePicPath != null) {
+                prev = userInfo.profilePicPath;
+            }
+
+            userInfo.profilePicPath = _currentPhotoPath;
+            picHint.setText("");
+            picReason.setText("");
+            tabHint.setText("");
+            proPic.setImageBitmap(scaled);
+            userInfo.propic = scaled.copy(Bitmap.Config.ARGB_8888, false);
+
+            if(prev != null) new File(prev).delete();
         }
     }
 
@@ -215,6 +289,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         EditText fieldBirthDate, name, username, password, distance;
         private int _day, _month, _year, focused = -1;
+        ImageButton explainTravel;
         Spinner countrySpinner;
 
         public BasicInfoFragment() {
@@ -256,6 +331,9 @@ public class CreateAccountActivity extends AppCompatActivity {
             distance.addTextChangedListener(this);
             distance.setOnFocusChangeListener(this);
 
+            explainTravel = (ImageButton) rootView.findViewById(R.id.buttonExplainTravel);
+            explainTravel.setOnClickListener(this);
+
             countrySpinner = (Spinner) rootView.findViewById(R.id.fieldCountry);
             // Create an ArrayAdapter using the string array and a default spinner layout
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -286,7 +364,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                     DatePickerDialog dialog = new DatePickerDialog(getContext(), this, _year, _month, _day);
                     dialog.show();
                     break;
-
+                case R.id.buttonExplainTravel:
+                    new AlertDialog.Builder(getContext()).setTitle("What does this mean?")
+                            .setMessage(R.string.explain_travel).setNegativeButton("Okay", null).show();
             }
         }
 
@@ -374,8 +454,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public static class DocsFragment extends Fragment implements View.OnClickListener {
 
-        private final int ID_FLAG = 1, REG_FLAG = 2, PASS_FLAG = 3;
-        ImageButton takeID, delID, takeReg, delReg, takePass, delPass;
+        private final int TAKE_ID_FLAG = 1, TAKE_REG_FLAG = 2, TAKE_PASS_FLAG = 3,
+                UPLOAD_ID_FLAG = 4, UPLOAD_REG_FLAG = 5, UPLOAD_PASS_FLAG = 6;
+        ImageButton takeID, uploadID, delID, takeReg, uploadReg, delReg, takePass, uploadPass, delPass;
         CheckBox idCheck, regCheck, passCheck;
 
         public DocsFragment() {
@@ -395,21 +476,30 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             takeID = (ImageButton) rootView.findViewById(R.id.buttonTakePhotoID);
             takeID.setOnClickListener(this);
+            uploadID = (ImageButton) rootView.findViewById(R.id.buttonUploadPhotoID);
+            uploadID.setOnClickListener(this);
             delID = (ImageButton) rootView.findViewById(R.id.buttonDeletePhotoID);
             delID.setOnClickListener(this);
             idCheck = (CheckBox) rootView.findViewById(R.id.checkBoxPhotoID);
+            if(!idCheck.isChecked()) delID.setClickable(false);
 
             takeReg = (ImageButton) rootView.findViewById(R.id.buttonTakeRegistration);
             takeReg.setOnClickListener(this);
+            uploadReg = (ImageButton) rootView.findViewById(R.id.buttonUploadRegistration);
+            uploadReg.setOnClickListener(this);
             delReg = (ImageButton) rootView.findViewById(R.id.buttonDeleteRegistration);
             delReg.setOnClickListener(this);
             regCheck = (CheckBox) rootView.findViewById(R.id.checkBoxRegistration);
+            if(!regCheck.isChecked()) delReg.setClickable(false);
 
             takePass = (ImageButton) rootView.findViewById(R.id.buttonTakePassport);
             takePass.setOnClickListener(this);
+            uploadPass = (ImageButton) rootView.findViewById(R.id.buttonUploadPassport);
+            uploadPass.setOnClickListener(this);
             delPass = (ImageButton) rootView.findViewById(R.id.buttonDeletePassport);
             delPass.setOnClickListener(this);
             passCheck = (CheckBox) rootView.findViewById(R.id.checkBoxPassport);
+            if(!passCheck.isChecked()) delPass.setClickable(false);
 
             return rootView;
         }
@@ -418,9 +508,12 @@ public class CreateAccountActivity extends AppCompatActivity {
         public void onClick(View v) {
             String prev;
             switch(v.getId()) {
-                case R.id.buttonTakePhotoID: takePic(ID_FLAG); break;
-                case R.id.buttonTakeRegistration: takePic(REG_FLAG); break;
-                case R.id.buttonTakePassport: takePic(PASS_FLAG); break;
+                case R.id.buttonTakePhotoID: takePic(TAKE_ID_FLAG); break;
+                case R.id.buttonTakeRegistration: takePic(TAKE_REG_FLAG); break;
+                case R.id.buttonTakePassport: takePic(TAKE_PASS_FLAG); break;
+                case R.id.buttonUploadPhotoID: uploadPic(UPLOAD_ID_FLAG); break;
+                case R.id.buttonUploadRegistration: uploadPic(UPLOAD_REG_FLAG); break;
+                case R.id.buttonUploadPassport: uploadPic(UPLOAD_PASS_FLAG); break;
                 case R.id.buttonDeletePhotoID:
                     prev = userInfo.docs.remove("ID");
                     if (prev != null) new File(prev).delete();
@@ -464,7 +557,20 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         }
 
-        String _currentPhotoPath;
+        private void uploadPic(int code) {
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state) ||
+                    Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, code);
+            } else {
+                Toast.makeText(getContext(), "Cannot Load Images", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        String _currentPhotoPath = null;
 
         private File createImageFile(int code) throws IOException {
             // Create an image file name
@@ -487,25 +593,67 @@ public class CreateAccountActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (resultCode == RESULT_OK) {
-                if (requestCode == ID_FLAG) {
-                    String prev = userInfo.docs.put("ID", _currentPhotoPath);
-                    if (prev != null) new File(prev).delete();
-
-                    delID.setClickable(true);
-                    idCheck.setChecked(true);
-                } else if (requestCode == REG_FLAG) {
-                    String prev = userInfo.docs.put("Registration", _currentPhotoPath);
-                    if (prev != null) new File(prev).delete();
-
-                    delReg.setClickable(true);
-                    regCheck.setChecked(true);
-                } else if (requestCode == PASS_FLAG) {
-                    String prev = userInfo.docs.put("Passport", _currentPhotoPath);
-                    if (prev != null) new File(prev).delete();
-
-                    delPass.setClickable(true);
-                    passCheck.setChecked(true);
+                if (requestCode > 0 && requestCode < 4) {
+                    savePic(requestCode);
+                } else if (data != null && requestCode > 3 && requestCode < 7) {
+                    try {
+                        int code = requestCode - 3;
+                        Uri imageUri = data.getData();
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                        _currentPhotoPath = copyLoadedImage(bitmap.copy(Bitmap.Config.ARGB_8888, false), code);
+                        if (_currentPhotoPath != null) savePic(code);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Unable to read loaded image", Toast.LENGTH_LONG).show();
+                        if (_currentPhotoPath != null) {
+                            new File(_currentPhotoPath).delete();
+                            _currentPhotoPath = null;
+                        }
+                    }
                 }
+            }
+        }
+
+        private void savePic(int code) {
+            if (code == TAKE_ID_FLAG) {
+                String prev = userInfo.docs.put("ID", _currentPhotoPath);
+                if (prev != null) new File(prev).delete();
+
+                delID.setClickable(true);
+                idCheck.setChecked(true);
+            } else if (code == TAKE_REG_FLAG) {
+                String prev = userInfo.docs.put("Registration", _currentPhotoPath);
+                if (prev != null) new File(prev).delete();
+
+                delReg.setClickable(true);
+                regCheck.setChecked(true);
+            } else if (code == TAKE_PASS_FLAG) {
+                String prev = userInfo.docs.put("Passport", _currentPhotoPath);
+                if (prev != null) new File(prev).delete();
+
+                delPass.setClickable(true);
+                passCheck.setChecked(true);
+            }
+            _currentPhotoPath = null;
+        }
+
+        private String copyLoadedImage(Bitmap pic, int code) {
+            // Save a loaded image in app-specific memory, so it can be loaded whenever
+            try {
+                File image = createImageFile(code);
+
+                FileOutputStream fos = new FileOutputStream(image);
+                // Copy the loaded Bitmap into a .jpeg
+                pic.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+
+                // Make sure the system knows that the new file exists
+                MediaScannerConnection.scanFile(getContext(), new String[]{image.toString()}, null, null);
+                return image.getAbsolutePath();
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Unable to read uploaded picture",
+                        Toast.LENGTH_LONG).show();
+                return null;
             }
         }
 
@@ -553,9 +701,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     fos.flush();
                     fos.close();
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Unable to store user information.",
+                    Toast.makeText(getContext(), "Unable to store user information",
                             Toast.LENGTH_LONG).show();
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 Intent intent = new Intent(getContext(), SignedInActivity.class);
