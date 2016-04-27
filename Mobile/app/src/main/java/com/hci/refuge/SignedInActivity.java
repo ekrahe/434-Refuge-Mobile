@@ -17,7 +17,7 @@ public class SignedInActivity extends AppCompatActivity implements View.OnClickL
 
     Button _buttonSignOut;
     TextView _welcomeText;
-    UserInfo userInfo;
+    public static UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +28,6 @@ public class SignedInActivity extends AppCompatActivity implements View.OnClickL
         _buttonSignOut.setOnClickListener(this);
 
         _welcomeText = (TextView) findViewById(R.id.labelSignedInWelcome);
-
-        ArrayList<String> lines = new ArrayList<>();
-        String path = (String) getIntent().getExtras().get("File");
-        File pro_file = new File(path);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(pro_file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
-            br.close();
-        }
-        catch (Exception e) {
-            Toast.makeText(this, "NOOOOOOO", Toast.LENGTH_LONG).show();
-        }
-
-        userInfo = new UserInfo(lines);
-        userInfo.username = (String) getIntent().getExtras().get("User");
-
         _welcomeText.setText("Welcome " + userInfo.username + " from " + userInfo.origin.toString());
 
     }
@@ -55,6 +35,7 @@ public class SignedInActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, MainActivity.class);
+        userInfo = null;
         startActivity(intent);
     }
 }

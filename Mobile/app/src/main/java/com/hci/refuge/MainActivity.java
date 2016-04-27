@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,22 +44,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                String line;
+                ArrayList<String> lines = new ArrayList<>();
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(pro_file));
-                    line = br.readLine();
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        lines.add(line);
+                    }
                     br.close();
                 }
                 catch (Exception e) {
-                    Toast.makeText(this, "Unable to read user profile.", Toast.LENGTH_LONG).show();
-                    return;
+                    Toast.makeText(this, "Unable to read user file.", Toast.LENGTH_LONG).show();
                 }
+                UserInfo userInfo = new UserInfo(lines);
 
-                if (line.equals(_passwordView.getText().toString())) {
+                if (userInfo.password.equals(_passwordView.getText().toString())) {
                     intent = new Intent(this, SignedInActivity.class);
-                    intent.putExtra("File", pro_file.getAbsolutePath());
-                    intent.putExtra("User", _usernameView.getText().toString());
-
+                    userInfo.username = _usernameView.getText().toString();
+                    SignedInActivity.userInfo = new UserInfo(userInfo);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Incorrect password.", Toast.LENGTH_LONG).show();

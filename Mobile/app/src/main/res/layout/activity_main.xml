@@ -62,7 +62,6 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Don't have an account?"
-        android:textStyle="bold"
         android:id="@+id/labelSignUp"
         android:layout_centerHorizontal="true" />
 

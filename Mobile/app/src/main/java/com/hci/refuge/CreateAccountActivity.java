@@ -706,8 +706,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     return;
                 }
                 Intent intent = new Intent(getContext(), SignedInActivity.class);
-                intent.putExtra("File", pro_file.getAbsolutePath());
-                intent.putExtra("User", userInfo.username);
+
+                SignedInActivity.userInfo = userInfo;
 
                 startActivity(intent);
             } else Toast.makeText(getContext(), ready, Toast.LENGTH_LONG).show();

@@ -24,6 +24,12 @@ public class UserInfo {
         docs = new HashMap<>();
     }
 
+    public UserInfo(UserInfo ui) {
+        profilePicPath = ui.profilePicPath; name = ui.name; username = ui.username; password = ui.password;
+        travelDistance = new Double(ui.travelDistance); origin = ui.origin; docs = new HashMap<>(ui.docs);
+        birthday = ui.birthday; birthmonth = ui.birthmonth; birthyear = ui.birthyear;
+    }
+
     public UserInfo(ArrayList<String> vals) {
         password = vals.get(0);
         name = vals.get(1);
@@ -52,7 +58,17 @@ public class UserInfo {
         else if (country.equals("Ukraine")) origin = Country.Ukraine;
         else origin = Country.USA;
 
-        //TODO: extra docs
+        docs = new HashMap<>();
+        for (int i = 6; i < vals.size(); i++) {
+            String line = vals.get(i);
+            if (line.startsWith("id: ")) {
+                docs.put("ID", line.substring(4));
+            } else if (line.startsWith("registration: ")) {
+                docs.put("ID", line.substring(14));
+            } else if (line.startsWith("passport: ")) {
+                docs.put("ID", line.substring(10));
+            }
+        }
     }
 
     public String readyToCreate() {
@@ -92,7 +108,7 @@ public class UserInfo {
 
         if (docs.containsKey("ID")) s += "\nid: " + docs.get("ID");
         if (docs.containsKey("Registration")) s += "\nregistration: " + docs.get("Registration");
-        if (docs.containsKey("Passport")) s += "\npassort: " + docs.get("Passport");
+        if (docs.containsKey("Passport")) s += "\npassport: " + docs.get("Passport");
 
         return s;
     }
