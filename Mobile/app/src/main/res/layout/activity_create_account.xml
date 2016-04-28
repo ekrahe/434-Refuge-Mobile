@@ -9,13 +9,13 @@
     tools:context=".CreateAccountActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbarCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarCreate"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -25,7 +25,7 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/tabsCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="false" />
@@ -33,11 +33,11 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+        android:id="@+id/containerCreate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/appbar"
+        android:layout_below="@+id/appbarCreate"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

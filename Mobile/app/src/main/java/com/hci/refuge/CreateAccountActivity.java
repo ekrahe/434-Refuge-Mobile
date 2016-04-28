@@ -73,7 +73,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCreate);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -82,10 +82,10 @@ public class CreateAccountActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.containerCreate);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsCreate);
         tabLayout.setupWithViewPager(mViewPager);
 
         pm = getPackageManager();
@@ -705,9 +705,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                Intent intent = new Intent(getContext(), SignedInActivity.class);
+                Intent intent = new Intent(getContext(), SearchAidActivity.class);
 
-                SignedInActivity.userInfo = userInfo;
+                SearchAidActivity.userInfo = new UserInfo(userInfo);
 
                 startActivity(intent);
             } else Toast.makeText(getContext(), ready, Toast.LENGTH_LONG).show();

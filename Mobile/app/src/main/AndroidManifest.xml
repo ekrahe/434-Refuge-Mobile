@@ -25,7 +25,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hci.refuge.MainActivity" />
         </activity>
-        <activity android:name=".SignedInActivity"></activity>
+        <activity
+            android:name=".SearchAidActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

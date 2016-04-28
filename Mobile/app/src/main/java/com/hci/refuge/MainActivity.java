@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 UserInfo userInfo = new UserInfo(lines);
 
                 if (userInfo.password.equals(_passwordView.getText().toString())) {
-                    intent = new Intent(this, SignedInActivity.class);
+                    intent = new Intent(this, SearchAidActivity.class);
                     userInfo.username = _usernameView.getText().toString();
-                    SignedInActivity.userInfo = new UserInfo(userInfo);
+                    SearchAidActivity.userInfo = new UserInfo(userInfo);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Incorrect password.", Toast.LENGTH_LONG).show();
