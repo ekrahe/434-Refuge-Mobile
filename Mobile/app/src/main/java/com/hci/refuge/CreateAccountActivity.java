@@ -3,6 +3,7 @@ package com.hci.refuge;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -46,7 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -91,6 +92,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         pm = getPackageManager();
 
         userInfo = new UserInfo();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setTitle("Exit Create Account?")
+                .setNegativeButton("No", null).setPositiveButton("Yes", this).show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        super.onBackPressed();
     }
 
     @Override

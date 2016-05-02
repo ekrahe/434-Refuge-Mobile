@@ -3,6 +3,7 @@
     package="com.hci.refuge">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +28,12 @@
         </activity>
         <activity
             android:name=".SearchAidActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".EventDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hci.refuge.SearchAidActivity" />
+        </activity>
     </application>
 
 </manifest>
