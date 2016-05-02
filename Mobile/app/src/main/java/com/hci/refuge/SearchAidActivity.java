@@ -16,17 +16,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.method.KeyListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class SearchAidActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemClickListener,
+        android.widget.TextView.OnEditorActionListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     GoogleApiClient _googleClient;
@@ -71,24 +75,7 @@ public class SearchAidActivity extends AppCompatActivity
                 android.R.layout.simple_dropdown_item_1line, SearchOptions.values());
         _searchBox = (AutoCompleteTextView) findViewById(R.id.fieldSearchBox);
         _searchBox.setAdapter(adapter);
-        _searchBox.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    _searchBox.setText(_searchBox.getText().toString().trim());
-                    if (event.getAction() == KeyEvent.ACTION_UP) {
-                        _searchBox.clearFocus();
-
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(_searchBox.getWindowToken(), 0);
-
-                        _searchButton.callOnClick();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
+        _searchBox.setOnEditorActionListener(this);
 
         _searchButton = (ImageButton) findViewById(R.id.buttonSearchAid);
         _searchButton.setOnClickListener(this);
@@ -105,6 +92,18 @@ public class SearchAidActivity extends AppCompatActivity
             resultsAdapter.setLatLon(lat, lon);
             resultsAdapter.setResults(EventData.getData(search));
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_SEARCH) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(_searchBox.getWindowToken(), 0);
+            _searchButton.callOnClick();
+            _searchBox.clearFocus();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -128,8 +127,6 @@ public class SearchAidActivity extends AppCompatActivity
                 lat = last.getLatitude();
                 lon = last.getLongitude();
             }
-        } else {
-            Toast.makeText(this, "You're no fun", Toast.LENGTH_LONG).show();
         }
     }
 
