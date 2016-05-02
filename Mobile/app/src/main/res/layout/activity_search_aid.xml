@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:hint="What type of aid do you need?"
             android:imeOptions="actionSearch"
+            android:completionThreshold="1"
             android:lines="1"
             android:inputType="text"
             android:id="@+id/fieldSearchBox"

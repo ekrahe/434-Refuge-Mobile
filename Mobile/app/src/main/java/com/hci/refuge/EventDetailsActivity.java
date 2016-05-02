@@ -30,7 +30,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        String geoUri = "http://maps.google.com/maps?q=loc:" + event.latitude + "," + event.longitude + " (Event)";
+        String geoUri = "http://maps.google.com/maps?q=loc:" + event.latitude + ","
+                + event.longitude + " (" + event.title + ")";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
         startActivity(intent);
     }
