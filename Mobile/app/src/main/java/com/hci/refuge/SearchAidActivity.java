@@ -171,6 +171,7 @@ public class SearchAidActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             userInfo = null;
+                            search = null;
                             Intent intent = new Intent(c, MainActivity.class);
                             startActivity(intent);
                         }
