@@ -25,34 +25,31 @@
             android:adjustViewBounds="true"
             android:id="@+id/imageProPic" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Take Or Upload A Profile Picture:"
-            android:textAlignment="center"
-            android:id="@+id/labelPicHint"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/labelPicReason"/>
+            android:layout_centerInParent="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="A profile picture is necessary for aid providers to identify you."
-            android:textAlignment="center"
-            android:id="@+id/labelPicReason"
-            android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Take Or Upload A Profile Picture:"
+                android:textAlignment="center"
+                android:id="@+id/labelPicHint"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="When finished, swipe left to continue."
-            android:textAlignment="center"
-            android:id="@+id/labelTabHint"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/labelPicReason"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="A profile picture is necessary for aid providers to identify you."
+                android:textAlignment="center"
+                android:id="@+id/labelPicReason"
+                android:layout_below="@+id/labelPicHint" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -64,21 +61,55 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <ImageButton
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:id="@+id/buttonTakePropic"
-            android:src="@drawable/ic_take_photo_large"
-            android:layout_gravity="left" />
+            android:layout_gravity="left"
+            android:layout_marginRight="8dp">
 
-        <ImageButton
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonTakePropic"
+                android:src="@drawable/ic_take_photo_large"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="TAKE"
+                android:textStyle="bold"
+                android:id="@+id/labelTakePropic"
+                android:layout_below="@id/buttonTakePropic"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:id="@+id/buttonUploadPropic"
-            android:src="@drawable/ic_upload_photo_large"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:layout_marginLeft="8dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonUploadPropic"
+                android:src="@drawable/ic_upload_photo_large"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="UPLOAD"
+                android:textStyle="bold"
+                android:id="@+id/labelUploadPropic"
+                android:layout_below="@id/buttonUploadPropic"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

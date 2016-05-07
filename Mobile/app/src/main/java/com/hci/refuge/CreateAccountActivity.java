@@ -127,7 +127,7 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         ImageButton takePhoto, loadPhoto;
         ImageView proPic;
         View rootView;
-        TextView picHint, picReason, tabHint;
+        TextView picHint, picReason;
         int picW, picH;
 
         public ProfilePicFragment() {
@@ -153,13 +153,11 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
             picHint = (TextView) rootView.findViewById(R.id.labelPicHint);
             picReason = (TextView) rootView.findViewById(R.id.labelPicReason);
-            tabHint = (TextView) rootView.findViewById(R.id.labelTabHint);
 
             proPic = (ImageView) rootView.findViewById(R.id.imageProPic);
             if(userInfo.propic != null) {
                 picHint.setText("");
                 picReason.setText("");
-                tabHint.setText("");
                 proPic.setImageBitmap(userInfo.propic);
             }
 
@@ -171,7 +169,7 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         @Override
         public void onClick(View v) {
             picW = rootView.getWidth();
-            picH = rootView.getHeight() - takePhoto.getHeight();
+            picH = rootView.findViewById(R.id.wrapperPropicFrame).getHeight();
 
             if (v.getId() == R.id.buttonTakePropic) {
                 //take a new photo
@@ -287,7 +285,6 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             userInfo.profilePicPath = _currentPhotoPath;
             picHint.setText("");
             picReason.setText("");
-            tabHint.setText("");
             proPic.setImageBitmap(scaled);
             userInfo.propic = scaled.copy(Bitmap.Config.ARGB_8888, false);
 
