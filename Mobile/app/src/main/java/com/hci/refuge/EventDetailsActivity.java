@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+
 public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton directionButton;
@@ -21,7 +23,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((TextView)findViewById(R.id.labelDetailsTitle)).setText(event.title);
-        ((TextView)findViewById(R.id.labelDetailsDate)).setText(""+event.month+"/"+event.day+"/"+event.year);
+        ((TextView)findViewById(R.id.labelDetailsStart)).setText(new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal1.getTime()));
+        ((TextView)findViewById(R.id.labelDetailsEnd)).setText(new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal2.getTime()));
+        ((TextView)findViewById(R.id.labelDetailsWho)).setText(""+event.who);
+        ((TextView)findViewById(R.id.labelDetailsNeed)).setText(""+event.docs);
         ((TextView)findViewById(R.id.labelDetailsDescription)).setText(event.description);
 
         directionButton = (ImageButton) findViewById(R.id.buttonGetDirections);

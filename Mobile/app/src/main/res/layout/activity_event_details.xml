@@ -21,23 +21,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date"
-        android:id="@+id/labelDetailsDate"
+        android:text="Start"
+        android:id="@+id/labelDetailsStart"
+        android:layout_marginTop="8dp"
         android:layout_below="@+id/labelDetailsTitle"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/labelDetailsEnd"
+        android:layout_alignStart="@+id/labelDetailsEnd" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Description"
         android:id="@+id/labelDetailsDescription"
-        android:layout_below="@+id/labelDetailsDate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/labelWhat"
+        android:layout_alignLeft="@+id/labelDetailsNeed"
+        android:layout_alignStart="@+id/labelDetailsNeed" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -46,5 +46,94 @@
         android:id="@+id/buttonGetDirections"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="FROM: "
+        android:textStyle="bold"
+        android:id="@+id/labelFrom"
+        android:layout_alignTop="@+id/labelDetailsStart"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="UNTIL: "
+        android:textStyle="bold"
+        android:id="@+id/labelTil"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/labelFrom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="End"
+        android:id="@+id/labelDetailsEnd"
+        android:layout_alignTop="@+id/labelTil"
+        android:layout_toRightOf="@+id/labelWho"
+        android:layout_toEndOf="@+id/labelWho" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="OPEN TO: "
+        android:textStyle="bold"
+        android:id="@+id/labelWho"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/labelTil"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Who"
+        android:id="@+id/labelDetailsWho"
+        android:layout_alignTop="@+id/labelWho"
+        android:layout_toRightOf="@+id/labelWho"
+        android:layout_toEndOf="@+id/labelWho" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="WHAT: "
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:id="@+id/labelWhat"
+        android:layout_below="@+id/labelNeed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="DOCS: "
+        android:textStyle="bold"
+        android:id="@+id/labelNeed"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/labelWho"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Needs"
+        android:id="@+id/labelDetailsNeed"
+        android:layout_alignTop="@+id/labelNeed"
+        android:layout_toRightOf="@+id/labelWho"
+        android:layout_toEndOf="@+id/labelWho" />
 
 </RelativeLayout>

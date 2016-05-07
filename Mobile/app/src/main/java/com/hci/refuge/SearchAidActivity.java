@@ -1,6 +1,5 @@
 package com.hci.refuge;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,14 +8,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.method.KeyListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,7 +84,7 @@ public class SearchAidActivity extends AppCompatActivity
             lon = -76.942541;
         }
         if(search != null) {
-            resultsAdapter.setLatLon(lat, lon);
+            resultsAdapter.setLatLonMax(lat, lon, userInfo.travelDistance);
             resultsAdapter.setResults(EventData.getData(search));
         }
     }
@@ -109,7 +104,7 @@ public class SearchAidActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, EventDetailsActivity.class);
-        EventDetailsActivity.event = new EventData((EventData) resultsAdapter.getItem(position));
+        EventDetailsActivity.event = (EventData) resultsAdapter.getItem(position);
         startActivity(intent);
     }
 
@@ -188,8 +183,11 @@ public class SearchAidActivity extends AppCompatActivity
         try {
             SearchOptions type = SearchOptions.valueOf(_searchBox.getText().toString());
             search = type;
-            resultsAdapter.setLatLon(lat, lon);
+            resultsAdapter.setLatLonMax(lat, lon, userInfo.travelDistance);
             resultsAdapter.setResults(EventData.getData(search));
+            if (resultsAdapter.getCount() == 0) {
+                Toast.makeText(this, "No aid found in your vicinity", Toast.LENGTH_LONG).show();
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Search using one of the suggested aid types.", Toast.LENGTH_LONG).show();
         }

@@ -29,13 +29,6 @@ public class EventData {
         this.docs = docs;
     }
 
-    public EventData(EventData event) {
-        this.title = event.title;
-        this.description = event.description;
-        this.latitude = event.latitude;
-        this.longitude = event.longitude;
-    }
-
     public static ArrayList<EventData> getData(SearchOptions option){
         ArrayList<EventData> events = new ArrayList<EventData>();
 

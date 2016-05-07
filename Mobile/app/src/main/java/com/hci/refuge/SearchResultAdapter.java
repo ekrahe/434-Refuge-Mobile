@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +19,7 @@ public class SearchResultAdapter extends BaseAdapter {
     private ArrayList<EventData> _results = new ArrayList<>();
     private static LayoutInflater _inflater = null;
     private Context _context;
-    private double lat = 0, lon = 0;
+    private double lat = 0, lon = 0, maxDist = 0;
 
     public SearchResultAdapter(Context context) {
         _context = context;
@@ -60,10 +61,11 @@ public class SearchResultAdapter extends BaseAdapter {
         }
 
         data.title.setText(event.title);
-        data.date.setText(""+event.month+"/"+event.day+"/"+event.year);
+        data.date.setText(new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal1.getTime())+" - "+
+                new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal2.getTime()));
         float[] dist = {0};
         Location.distanceBetween(lat, lon, event.latitude, event.longitude, dist);
-        data.distance.setText(""+String.format(java.util.Locale.US,"%.2f", dist[0]/1000)+" km");
+        data.distance.setText(""+String.format(java.util.Locale.US,"%.2f", dist[0]/1000)+" km away");
 
         return result;
     }
@@ -73,13 +75,19 @@ public class SearchResultAdapter extends BaseAdapter {
     }
 
     public void setResults(ArrayList<EventData> results) {
-        _results = new ArrayList<>(results);
+        _results = new ArrayList<>();
+        for (EventData event : results) {
+            float[] dist = {0};
+            Location.distanceBetween(lat, lon, event.latitude, event.longitude, dist);
+            if (dist[0]/1000 <= maxDist) _results.add(event);
+        }
         notifyDataSetChanged();
     }
 
-    public void setLatLon(double la, double lo) {
+    public void setLatLonMax(double la, double lo, double max) {
         lat = la;
         lon = lo;
+        maxDist = max;
     }
 
 }
