@@ -36,6 +36,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Take Or Upload A Profile Picture:"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/labelPicHint"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"/>
@@ -80,6 +81,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="TAKE"
                 android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/labelTakePropic"
                 android:layout_below="@id/buttonTakePropic"
                 android:layout_centerHorizontal="true"/>
@@ -105,6 +107,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="UPLOAD"
                 android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
                 android:id="@+id/labelUploadPropic"
                 android:layout_below="@id/buttonUploadPropic"
                 android:layout_centerHorizontal="true"/>

@@ -19,6 +19,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Enter the following required information:"
             android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
             android:id="@+id/labelInfoInstructions"
             android:layout_centerHorizontal="true" />
 

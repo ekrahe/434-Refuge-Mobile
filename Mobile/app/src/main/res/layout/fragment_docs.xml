@@ -13,7 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="The following documents are not required, but can simplify receiving aid:"
         android:textAlignment="center"
-
+        android:textColor="@color/colorPrimaryDark"
         android:id="@+id/labelDocsInstructions"
         android:layout_centerHorizontal="true" />
 
