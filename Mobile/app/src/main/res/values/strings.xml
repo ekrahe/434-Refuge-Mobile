@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">REFUGE</string>
+    <string name="app_name">Refuge</string>
 
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
