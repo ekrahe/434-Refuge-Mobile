@@ -284,6 +284,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         }
 
         public void setPic() {
+            if (userInfo.profilePicPath == null) {
+                Toast.makeText(getContext(), "Swipe left to continue creating your account", Toast.LENGTH_LONG).show();
+            }
+
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(_currentPhotoPath, bmOptions);
@@ -455,8 +459,14 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
                 case 0: userInfo.name = s.toString(); break;
                 case 1: userInfo.username = s.toString(); break;
                 case 2: userInfo.password = s.toString(); break;
-                case 4: if(s.toString().length() > 0) userInfo.travelDistance = Double.parseDouble(s.toString());
-                    break;
+                case 4:
+                    if(s.toString().length() > 0) {
+                        try {
+                            userInfo.travelDistance = Double.parseDouble(s.toString());
+                        } catch(Exception e) {
+                            userInfo.travelDistance = 0.0;
+                        }
+                    } break;
             }
         }
 
@@ -740,7 +750,7 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
                 Intent intent = new Intent(getContext(), SearchAidActivity.class);
 
                 SearchAidActivity.userInfo = new UserInfo(userInfo);
-
+                intent.putExtra("FROM","Create");
                 startActivity(intent);
             } else Toast.makeText(getContext(), ready, Toast.LENGTH_LONG).show();
         }

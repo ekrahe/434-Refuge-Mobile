@@ -87,6 +87,17 @@ public class SearchAidActivity extends AppCompatActivity
             resultsAdapter.setLatLonMax(lat, lon, userInfo.travelDistance);
             resultsAdapter.setResults(EventData.getData(search));
         }
+
+        try {
+            if(getIntent().getExtras().getString("FROM").equals("Create")) {
+                new AlertDialog.Builder(this).setTitle("Welcome to Refuge!").setIcon(R.mipmap.ic_launcher)
+                        .setMessage("While signed into Refuge, you can search for aid events posted in your area." +
+                                " Use the search bar to choose from one of the available aid types," +
+                                " and choose any result from the list to see more information about it.")
+                        .setNegativeButton("Okay", null).show();
+            }
+        } catch (Exception ignored){}
+
     }
 
     @Override
