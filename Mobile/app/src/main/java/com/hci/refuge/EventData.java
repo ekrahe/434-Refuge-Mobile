@@ -10,13 +10,13 @@ import java.util.Calendar;
 
 /**
  * Created by becca13 on 4/27/16.
+ * Used to create & present dummy data for Find Aid task
  */
 public class EventData {
     public String title, description, who, docs;
     public double longitude, latitude;
     public GregorianCalendar cal1;
     public GregorianCalendar cal2;
-
 
     public EventData(String title, String description, String who, String docs, double lat, double lon, GregorianCalendar start, GregorianCalendar end) {
         this.title = title;
@@ -29,6 +29,9 @@ public class EventData {
         this.docs = docs;
     }
 
+    /**
+     * Takes in a SearchOptions Enum & returns a list of dummy data of that type
+     */
     public static ArrayList<EventData> getData(SearchOptions option){
         ArrayList<EventData> events = new ArrayList<EventData>();
 

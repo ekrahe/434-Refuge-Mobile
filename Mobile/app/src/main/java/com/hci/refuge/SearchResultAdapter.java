@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Eddie on 5/1/2016.
+ * Adapter used in SearchAidActivity to propagate a ListView with EventData search results.
  */
 public class SearchResultAdapter extends BaseAdapter {
 
@@ -41,6 +42,9 @@ public class SearchResultAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     * Fills a search result layout with information from a particular EventData
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View result = convertView;
@@ -77,6 +81,9 @@ public class SearchResultAdapter extends BaseAdapter {
         TextView title, date, date2, distance;
     }
 
+    /**
+     * Fills the List of EventData with those results that are within 'max' km of user's location
+     */
     public void setResults(ArrayList<EventData> results) {
         _results = new ArrayList<>();
         for (EventData event : results) {
@@ -87,6 +94,9 @@ public class SearchResultAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * Setter for the user's current location and their Maximum Travel Distance value
+     */
     public void setLatLonMax(double la, double lo, double max) {
         lat = la;
         lon = lo;

@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Eddie on 4/14/2016.
+ * Stores information about the current user (either logged in, or being created)
  */
 public class UserInfo {
 
@@ -30,6 +31,9 @@ public class UserInfo {
         birthday = ui.birthday; birthmonth = ui.birthmonth; birthyear = ui.birthyear;
     }
 
+    /**
+     * Constructor for creating a UserInfo object from a previously stored file (username.txt)
+     */
     public UserInfo(ArrayList<String> vals) {
         password = vals.get(0);
         name = vals.get(1);
@@ -71,6 +75,11 @@ public class UserInfo {
         }
     }
 
+    /**
+     * Checks to see what required fields are missing when somebody tries to create an account
+     * Returns null if they're fine,
+     * or a String to be presented to the user listing what they still need
+     */
     public String readyToCreate() {
         String ret = "Missing ";
         ArrayList<String> needs = new ArrayList<>();
@@ -98,6 +107,10 @@ public class UserInfo {
         return ret.trim();
     }
 
+    /**
+     * When a new user is created in CreateAccountActivity,
+     * this method is called to generate the String written into username.txt in order to save their info
+     */
     public String fileStyle() {
         String s = "" + password
                 + "\n" + name

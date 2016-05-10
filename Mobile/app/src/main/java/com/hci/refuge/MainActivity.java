@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText _passwordView, _usernameView;
     private Button _buttonSignIn, _buttonSignUp;
 
+    /**
+     * MainActivity is a login Activity, where the user can sign in to an existing account
+     * or create a new one
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * The Sign In button checks that username.txt exists,
+     * and that the entered password matches the one stored in username.txt.
+     * If it does, the user is logged in and sent to SearchAidActivity.
+     * If it doesn't the user is told given an error message.
+     *
+     * The Sign Up button sends the user to CreateAccountActivity
+     */
     @Override
     public void onClick(View v) {
         Intent intent;

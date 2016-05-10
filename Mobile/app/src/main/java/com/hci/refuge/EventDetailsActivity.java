@@ -15,6 +15,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     ImageButton directionButton;
     static EventData event;
 
+    /**
+     * Provides details about a specific event that a user clicks on in SearchAidActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         directionButton.setOnClickListener(this);
     }
 
+    /**
+     * The Directions button opens up the Google Maps app on the (lat, lon) location of the event
+     */
     @Override
     public void onClick(View v) {
         String geoUri = "http://maps.google.com/maps?q=loc:" + event.latitude + ","

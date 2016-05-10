@@ -48,6 +48,13 @@ public class SearchAidActivity extends AppCompatActivity
     protected static final int COARSE_LOCATION_CODE = 1243;
     private static double lat = -1, lon = -1;
 
+    /**
+     * The SearchAidActivity is presented to users when they sign in.
+     * The first time they sign in, users are presented with a welcome popup explaining usage.
+     * There is an AutoCompleteTextView to allow users to search aid types and give them suggestions.
+     * Searched aid types return a list of events in the user's area or an error message.
+     * Any list item can be clicked on to view more details
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +107,9 @@ public class SearchAidActivity extends AppCompatActivity
 
     }
 
+    /**
+     * The user can hit the search key on their keyboard in order to initiate searching for an aid type
+     */
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -112,6 +122,9 @@ public class SearchAidActivity extends AppCompatActivity
         return false;
     }
 
+    /**
+     * If a search result is clicked, open up the EventDetailsActivity to see more info about it
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, EventDetailsActivity.class);
@@ -119,11 +132,16 @@ public class SearchAidActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * Overridden so that the user can't hit back to accidentally sign out
+     */
     @Override
-    public void onBackPressed() {
-        // don't sign out of the app!
-    }
+    public void onBackPressed() { }
 
+    /**
+     * Grabs the user's coarse location in order to find their approximate geological location.
+     * Used to fill out distance values for the events listed as search results
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION )
@@ -146,6 +164,9 @@ public class SearchAidActivity extends AppCompatActivity
 
     }
 
+    /**
+     * These two methods are used to connect to Google Play in order to receive the user's location
+     */
     @Override
     protected void onStart() {
         _googleClient.connect();
@@ -164,10 +185,10 @@ public class SearchAidActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Only item in the menu is Sign Out. If they hit this, make sure they meant to
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_sign_out) {
             final Context c = this;
@@ -187,6 +208,11 @@ public class SearchAidActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Only button is Search. If they hit it, close the keyboard and return either:
+     * 1) A list of events in the user's area of that type, or
+     * 2) An error message explaining the lack of close aid or the use of an invalid search term
+     */
     @Override
     public void onClick(View v) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

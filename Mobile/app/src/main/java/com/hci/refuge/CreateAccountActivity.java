@@ -53,12 +53,7 @@ import java.util.GregorianCalendar;
 public class CreateAccountActivity extends AppCompatActivity implements DialogInterface.OnClickListener, ViewPager.OnPageChangeListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * Built from an Android Studio template Activity (as opposed to sample code)
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -72,6 +67,13 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
     private static boolean createdFlag = false;
 
+    /**
+     * CreateAccountActivity is presented to users who want to start using Refuge.
+     * They must input personally identifying information, but the use of it is always explained
+     * (mainly, the information will help aid organizations identify them in order to give them aid)
+     * Users also create a username and password for our service,
+     * and all their information is stored in a file that can be read in at a later point
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,22 +100,34 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         userInfo = new UserInfo();
     }
 
+    /**
+     * If the user pressed back, make sure they want to abandon creating an account
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setTitle("Exit Create Account?")
                 .setNegativeButton("No", null).setPositiveButton("Yes", this).show();
     }
 
+    /**
+     * Listens to the result of the popup menu that appears when the user presses back
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         super.onBackPressed();
     }
 
+    /**
+     * Based on a StackOverflow answer, this may be necessary to let Fragments listen to Activity Results
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * If account creation is abandoned, delete any photos taken by the user
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -126,6 +140,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         userInfo = null;
     }
 
+    /**
+     * If the user scrolls while the keyboard is open, close keyboard to prevent weird layout formatting
+     */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -145,6 +162,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
     }
 
+    /**
+     * ProfilePicFragment allows a user to upload or take a new profile picture, which is then saved
+     */
     public static class ProfilePicFragment extends Fragment implements View.OnClickListener {
 
         ImageButton takePhoto, loadPhoto;
@@ -163,6 +183,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return fragment;
         }
 
+        /**
+         * If a photo was already taken, make sure it's displayed in this new Fragment instance
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -189,6 +212,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
         static final int REQUEST_TAKE_PHOTO = 1, REQUEST_LOAD_PHOTO = 2;
 
+        /**
+         * If the Take Propic button was selected, the user is sent to the camera interface
+         * If the Upload Propic button was selected, the user is sent to the file selection interface
+         */
         @Override
         public void onClick(View v) {
             picW = rootView.getWidth();
@@ -230,6 +257,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
         String _currentPhotoPath = null;
 
+        /**
+         * If a new profile picture is being taken, generate a unique file to store the picture in
+         */
         private File createImageFile() throws IOException {
             // Create an image file name
             String fname = "profile_" + (new SimpleDateFormat("yy_MM_dd_hh_mm_ss").format(new Date()));
@@ -241,6 +271,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return image;
         }
 
+        /**
+         * If an image has been uploaded, make a copy of it so that we can load it freely in this app
+         */
         private String copyLoadedImage(Bitmap pic) {
             // Save a loaded image in app-specific memory, so it can be loaded whenever
             try {
@@ -262,6 +295,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * If the user took a photo, display it.
+         * If the user uploaded a photo, copy it and then display it
+         */
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
@@ -283,6 +320,11 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Loads in an image from a specified path, and displays it in the Fragment.
+         * Makes sure that the dimensions of the image fit on the screen by scaling it as necessary.
+         * The first time the user provides a profile picture, give them instructions on how to advance
+         */
         public void setPic() {
             if (userInfo.profilePicPath == null) {
                 Toast.makeText(getContext(), "Swipe left to continue creating your account", Toast.LENGTH_LONG).show();
@@ -319,6 +361,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         }
     }
 
+    /**
+     * BasicInfoFragment is where a user inputs all of their required personally identifying info,
+     * as well as a username, password, and max travel distance for use in this app
+     */
     public static class BasicInfoFragment extends Fragment implements View.OnClickListener,
             DatePickerDialog.OnDateSetListener, TextWatcher, View.OnFocusChangeListener,
             AdapterView.OnItemSelectedListener {
@@ -342,6 +388,11 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return fragment;
         }
 
+        /**
+         * No need to re-propagate the user info in these fields:
+         * from testing, this only happens when you scroll 3 fragments to either side,
+         * which you can't do as this one's 1 away from the left and 2 away from the right
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -386,6 +437,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return rootView;
         }
 
+        /**
+         * Listens to result of DatePicker used to set birth date
+         */
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             _year = year;
@@ -393,6 +447,12 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             _day = dayOfMonth;
             updateDisplay();
         }
+
+        /**
+         * If the user selects the birthday, opens up a DatePickerDialog for them to choose the date with.
+         * If the user selects the ? button next to Maximum Travel Distance,
+         * a popup appears to explain the meaning and need for the field
+         */
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -406,7 +466,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
-        // updates the date in the birth date EditText
+        /**
+         * Updates the date in the birth date EditText, unless an invalid (future) date was submitted.
+         * In that case, an error message is given
+         */
         private void updateDisplay() {
             Calendar now = Calendar.getInstance();
             Calendar then = Calendar.getInstance();
@@ -428,6 +491,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Used to keep track of which EditText is being typed into, if anything is typed
+         */
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             int viewTag = -1;
@@ -453,6 +519,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
+        /**
+         * If something is typed, check what it was typed into and update the appropriate UserInfo field
+         */
         @Override
         public void afterTextChanged(Editable s) {
             switch (focused) {
@@ -470,6 +539,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Listens to the Country of Origin Spinner
+         */
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch(position) {
@@ -494,6 +566,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
     }
 
+    /**
+     * DocsFragment is for users to upload any additional documents they have,
+     * specifically those that aid organizations might want to see before handing out aid
+     */
     public static class DocsFragment extends Fragment implements View.OnClickListener {
 
         private final int TAKE_ID_FLAG = 1, TAKE_REG_FLAG = 2, TAKE_PASS_FLAG = 3,
@@ -511,6 +587,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return fragment;
         }
 
+        /**
+         * Like BasicInfoFragment, no need ot re-propagate these fields ever
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -546,6 +625,12 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return rootView;
         }
 
+        /**
+         * There are 3 buttons for each type of document:
+         * 1) Take picture, which opens the camera interface
+         * 2) Upload picture, which opens the file selection interface
+         * 3) Delete picture, which deletes a previously submitted photo
+         */
         @Override
         public void onClick(View v) {
             String prev;
@@ -580,6 +665,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Sets up everything so that a user can take a photo of any of the 3 documents
+         */
         private void takePic(int code) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             // Ensure that there's a camera activity to handle the intent
@@ -599,6 +687,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Sets up everything so that a user can upload a photo of any of the 3 documents
+         */
         private void uploadPic(int code) {
             String state = Environment.getExternalStorageState();
             if (Environment.MEDIA_MOUNTED.equals(state) ||
@@ -614,6 +705,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
         String _currentPhotoPath = null;
 
+        /**
+         * Creates a new file for any picture that the user submits.
+         * Makes note of what kind of document was submitted
+         */
         private File createImageFile(int code) throws IOException {
             // Create an image file name
             String fname = "";
@@ -632,6 +727,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return image;
         }
 
+        /**
+         * Same setup as ProfilePicFragment.onActivityResult, but with 6 different results:
+         * 3 documents (ID, registration, passport) * 2 intents (take, upload)
+         */
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (resultCode == RESULT_OK) {
@@ -655,6 +754,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             }
         }
 
+        /**
+         * Adds a photo to the UserInfo, checks off that it has been included, and makes the doc deletable
+         */
         private void savePic(int code) {
             if (code == TAKE_ID_FLAG) {
                 String prev = userInfo.docs.put("ID", _currentPhotoPath);
@@ -678,6 +780,9 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             _currentPhotoPath = null;
         }
 
+        /**
+         * Saves a copy of an uploaded pic for local retrieval
+         */
         private String copyLoadedImage(Bitmap pic, int code) {
             // Save a loaded image in app-specific memory, so it can be loaded whenever
             try {
@@ -701,6 +806,10 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
     }
 
+    /**
+     * CreateFragment just has a button for creating the account.
+     * It exists to decrease clutter, rather than having the button at the bottom of another page
+     */
     public static class CreateFragment extends Fragment implements View.OnClickListener {
 
         Button create;
@@ -725,6 +834,13 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
             return rootView;
         }
 
+        /**
+         * If the user tries to make a account, make sure that:
+         * 1) The username doesn't exist, and
+         * 2) All required fields have been filled
+         * If not, an error message is given.
+         * If so, the user's info is stored into username.txt for later retrieval
+         */
         @Override
         public void onClick(View v) {
             String ready = userInfo.readyToCreate();
@@ -785,7 +901,6 @@ public class CreateAccountActivity extends AppCompatActivity implements DialogIn
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
             return 4;
         }
 
