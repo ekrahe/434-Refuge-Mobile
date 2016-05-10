@@ -27,10 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:paddingTop="8dp"
+            android:paddingTop="4dp"
             android:paddingLeft="8dp"
-            android:text="Date"
-            android:id="@+id/labelResultDate"
+            android:text="FROM: "
+            android:textStyle="bold"
+            android:id="@+id/labelResultFrom"
             android:layout_below="@+id/labelResultTitle"
             android:layout_alignParentLeft="true"/>
 
@@ -38,14 +39,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingTop="4dp"
+            android:text="Date"
+            android:id="@+id/labelResultDate"
+            android:layout_below="@+id/labelResultTitle"
+            android:layout_toRightOf="@+id/labelResultTil"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingLeft="8dp"
+            android:text="UNTIL: "
+            android:textStyle="bold"
+            android:id="@+id/labelResultTil"
+            android:layout_below="@+id/labelResultFrom"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Date"
+            android:id="@+id/labelResultDate2"
+            android:layout_below="@+id/labelResultFrom"
+            android:layout_toRightOf="@+id/labelResultTil"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="italic"
+            android:paddingTop="4dp"
             android:paddingLeft="8dp"
             android:paddingBottom="8dp"
             android:text="Distance"
-            android:textStyle="italic"
             android:id="@+id/labelResultDistance"
-            android:layout_below="@+id/labelResultDate"
-            android:layout_alignLeft="@+id/labelResultDate"
-            android:layout_alignStart="@+id/labelResultDate" />
+            android:layout_below="@+id/labelResultDate2" />
 
     </RelativeLayout>
 

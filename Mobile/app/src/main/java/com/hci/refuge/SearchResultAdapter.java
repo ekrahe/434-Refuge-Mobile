@@ -53,6 +53,7 @@ public class SearchResultAdapter extends BaseAdapter {
             result = _inflater.inflate(R.layout.item_search_result, parent, false);
             data.title = (TextView) result.findViewById(R.id.labelResultTitle);
             data.date = (TextView) result.findViewById(R.id.labelResultDate);
+            data.date2 = (TextView) result.findViewById(R.id.labelResultDate2);
             data.distance = (TextView) result.findViewById(R.id.labelResultDistance);
             result.setTag(data);
 
@@ -61,8 +62,10 @@ public class SearchResultAdapter extends BaseAdapter {
         }
 
         data.title.setText(event.title);
-        data.date.setText(new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal1.getTime())+" - "+
-                new SimpleDateFormat("MM/dd/yy hh:mm a").format(event.cal2.getTime()));
+        data.date.setText(new SimpleDateFormat("MM/dd/yy").format(event.cal1.getTime())+"  AT  "
+                +new SimpleDateFormat("hh:mm a").format(event.cal1.getTime()));
+        data.date2.setText(new SimpleDateFormat("MM/dd/yy").format(event.cal2.getTime())+"  AT  "
+                +new SimpleDateFormat("hh:mm a").format(event.cal2.getTime()));
         float[] dist = {0};
         Location.distanceBetween(lat, lon, event.latitude, event.longitude, dist);
         data.distance.setText(""+String.format(java.util.Locale.US,"%.2f", dist[0]/1000)+" km away");
@@ -71,7 +74,7 @@ public class SearchResultAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView title, date, distance;
+        TextView title, date, date2, distance;
     }
 
     public void setResults(ArrayList<EventData> results) {
